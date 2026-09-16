@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <path id="circlePath" d="M 100,100 m -80,0 a 80,80 0 1,1 160,0 a 80,80 0 1,1 -160,0" />
+  </defs>
+  <text font-size="14" fill="#b88080" font-family="sans-serif" letter-spacing="2">
+    <textPath href="#circlePath">
+      WED ود ✦ لانجيري فاخر ✦ WED ود ✦ لانجيري فاخر ✦
+    </textPath>
+  </text>
+</svg>

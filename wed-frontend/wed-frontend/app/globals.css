@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fdfbf7;
+  --foreground: #171717;
+  --color-rose: #b88080;
+  --color-rose-light: #e8c4c4;
+  --color-rose-pale: #f9f2f2;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-cairo);
+  --font-arabic-title: var(--font-el-messiri);
+  --font-serif: var(--font-playfair);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@keyframes rotateLoop {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+.looped-animation-rotate {
+  animation: rotateLoop 15s linear infinite;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-33.333%); }
+}
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+.font-arabic-title {
+  font-family: var(--font-el-messiri), sans-serif;
+}
+
+.font-serif {
+  font-family: var(--font-playfair), serif;
+}
+
+.dotted-bg {
+  background-color: #fdfbf7;
+  background-image:
+    linear-gradient(to right, rgba(200, 162, 162, 0.25) 1.5px, transparent 1.5px),
+    linear-gradient(to bottom, rgba(200, 162, 162, 0.25) 1.5px, transparent 1.5px);
+  background-size: 40px 40px;
+}
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
