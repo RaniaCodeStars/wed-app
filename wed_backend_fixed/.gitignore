@@ -24,3 +24,6 @@ __pycache__/
 
 # Vercel
 .vercel/
+
+*.zip
+.env*
