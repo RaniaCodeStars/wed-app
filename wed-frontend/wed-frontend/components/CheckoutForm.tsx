@@ -2,39 +2,104 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ShoppingBag, Phone, User, CheckCircle2, Truck, Building2, Home } from "lucide-react";
+import {
+  ShoppingBag,
+  Phone,
+  User,
+  CheckCircle2,
+  Truck,
+  Building2,
+  Home,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { getCartItems, clearCart, type CartItem } from "@/lib/cart";
 import { apiFetch, ApiClientError } from "@/lib/api";
 import { formatPrice, isValidAlgerianPhone } from "@/lib/format";
-import type { Wilaya, Order, DeliveryType } from "@/lib/types";
+import type { Wilaya, Order, DeliveryType, DeliveryPrice } from "@/lib/types";
 
 export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [deliveryType, setDeliveryType] = useState<DeliveryType>("domicile");
-  const [formData, setFormData] = useState({ customer_name: "", phone: "", wilaya: "", commune: "", address: "", office_name: "" });
+  const [formData, setFormData] = useState({
+    customer_name: "",
+    phone: "",
+    wilaya: "",
+    commune: "",
+    address: "",
+    office_name: "",
+  });
+  const [deliveryPrice, setDeliveryPrice] = useState<DeliveryPrice | null>(
+    null,
+  );
+
+  const [loadingDeliveryPrice, setLoadingDeliveryPrice] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [confirmedOrder, setConfirmedOrder] = useState<Order | null>(null);
 
   useEffect(() => {
     setCartItems(getCartItems());
   }, []);
+  useEffect(() => {
+    if (!formData.wilaya) {
+      setDeliveryPrice(null);
+      return;
+    }
 
-  const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const fetchDeliveryPrice = async () => {
+      setLoadingDeliveryPrice(true);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+      try {
+        const price = await apiFetch<DeliveryPrice>(
+          `/delivery-prices/${encodeURIComponent(formData.wilaya)}`,
+        );
+
+        setDeliveryPrice(price);
+      } catch (err) {
+        setDeliveryPrice(null);
+
+        if (err instanceof ApiClientError && err.status !== 404) {
+          toast.error("Impossible de récupérer les frais de livraison.");
+        }
+      } finally {
+        setLoadingDeliveryPrice(false);
+      }
+    };
+
+    fetchDeliveryPrice();
+  }, [formData.wilaya]);
+  const subtotal = cartItems.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
+
+  const currentDeliveryFee =
+    deliveryPrice === null
+      ? 0
+      : deliveryType === "domicile"
+        ? deliveryPrice.home_price
+        : deliveryPrice.office_price;
+
+  const totalPrice = subtotal + currentDeliveryFee;
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const validate = () => {
     const errs: Record<string, string> = {};
     if (!formData.customer_name.trim()) errs.customer_name = "الاسم مطلوب";
-    if (!isValidAlgerianPhone(formData.phone)) errs.phone = "رقم هاتف غير صالح (مثال: 0550000000)";
+    if (!isValidAlgerianPhone(formData.phone))
+      errs.phone = "رقم هاتف غير صالح (مثال: 0550000000)";
     if (!formData.wilaya) errs.wilaya = "يرجى اختيار الولاية";
     if (!formData.commune.trim()) errs.commune = "البلدية مطلوبة";
-    if (deliveryType === "domicile" && !formData.address.trim()) errs.address = "العنوان مطلوب للتوصيل للمنزل";
-    if (deliveryType === "bureau" && !formData.office_name.trim()) errs.office_name = "اسم المكتب مطلوب";
+    if (deliveryType === "domicile" && !formData.address.trim())
+      errs.address = "العنوان مطلوب للتوصيل للمنزل";
+    if (deliveryType === "bureau" && !formData.office_name.trim())
+      errs.office_name = "اسم المكتب مطلوب";
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -71,7 +136,10 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
       clearCart();
       setConfirmedOrder(order);
     } catch (err) {
-      const message = err instanceof ApiClientError ? err.message : "حدث خطأ أثناء إرسال الطلب";
+      const message =
+        err instanceof ApiClientError
+          ? err.message
+          : "حدث خطأ أثناء إرسال الطلب";
       toast.error(message);
     } finally {
       setSubmitting(false);
@@ -85,20 +153,46 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-arabic-title font-bold text-gray-900">تم تسجيل طلبك بنجاح!</h2>
+          <h2 className="text-2xl font-arabic-title font-bold text-gray-900">
+            تم تسجيل طلبك بنجاح!
+          </h2>
           <p className="text-sm text-gray-500">
-            شكراً لتشريفك لنا. رقم طلبك هو <span className="font-bold text-gray-900">#WED-{confirmedOrder.id}</span>
+            شكراً لتشريفك لنا. رقم طلبك هو{" "}
+            <span className="font-bold text-gray-900">
+              #WED-{confirmedOrder.id}
+            </span>
           </p>
         </div>
         <div className="bg-gray-50 rounded-2xl p-4 text-right space-y-2 text-xs text-gray-600 border border-gray-100">
-          <p><span className="font-bold">الاسم:</span> {confirmedOrder.customer_name}</p>
-          <p><span className="font-bold">الهاتف:</span> {confirmedOrder.phone}</p>
-          <p><span className="font-bold">النوع:</span> {confirmedOrder.delivery_type === "domicile" ? "توصيل للمنزل" : "استلام من المكتب"}</p>
-          <p><span className="font-bold">الوجهة:</span> {confirmedOrder.wilaya} - {confirmedOrder.commune}</p>
-          <p><span className="font-bold">الإجمالي:</span> {formatPrice(confirmedOrder.total_price)}</p>
-          <p className="text-[#b88080] font-medium pt-1 border-t border-gray-200">✦ سنتصل بك قريباً عبر الهاتف لتأكيد الطلب.</p>
+          <p>
+            <span className="font-bold">الاسم:</span>{" "}
+            {confirmedOrder.customer_name}
+          </p>
+          <p>
+            <span className="font-bold">الهاتف:</span> {confirmedOrder.phone}
+          </p>
+          <p>
+            <span className="font-bold">النوع:</span>{" "}
+            {confirmedOrder.delivery_type === "domicile"
+              ? "توصيل للمنزل"
+              : "استلام من المكتب"}
+          </p>
+          <p>
+            <span className="font-bold">الوجهة:</span> {confirmedOrder.wilaya} -{" "}
+            {confirmedOrder.commune}
+          </p>
+          <p>
+            <span className="font-bold">الإجمالي:</span>{" "}
+            {formatPrice(confirmedOrder.total_price)}
+          </p>
+          <p className="text-[#b88080] font-medium pt-1 border-t border-gray-200">
+            ✦ سنتصل بك قريباً عبر الهاتف لتأكيد الطلب.
+          </p>
         </div>
-        <Link href="/" className="block w-full py-3.5 bg-gray-900 text-white text-sm font-medium rounded-2xl hover:bg-gray-800 transition shadow-md text-center">
+        <Link
+          href="/"
+          className="block w-full py-3.5 bg-gray-900 text-white text-sm font-medium rounded-2xl hover:bg-gray-800 transition shadow-md text-center"
+        >
           العودة إلى الرئيسية
         </Link>
       </div>
@@ -115,7 +209,9 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
 
         <form onSubmit={handleSubmit} className="space-y-5" noValidate>
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-2">طريقة التوصيل</label>
+            <label className="block text-xs font-medium text-gray-700 mb-2">
+              طريقة التوصيل
+            </label>
             <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
@@ -137,7 +233,9 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1.5">الاسم واللقب</label>
+            <label className="block text-xs font-medium text-gray-700 mb-1.5">
+              الاسم واللقب
+            </label>
             <input
               name="customer_name"
               required
@@ -146,11 +244,17 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
             />
-            {errors.customer_name && <p className="text-[11px] text-rose-600 mt-1">{errors.customer_name}</p>}
+            {errors.customer_name && (
+              <p className="text-[11px] text-rose-600 mt-1">
+                {errors.customer_name}
+              </p>
+            )}
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-700 mb-1.5">رقم الهاتف (أساسي للتأكيد)</label>
+            <label className="block text-xs font-medium text-gray-700 mb-1.5">
+              رقم الهاتف (أساسي للتأكيد)
+            </label>
             <div className="relative">
               <input
                 type="tel"
@@ -164,12 +268,16 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
               />
               <Phone className="absolute right-4 top-3.5 w-4 h-4 text-gray-400" />
             </div>
-            {errors.phone && <p className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-[11px] text-rose-600 mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">الولاية</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                الولاية
+              </label>
               <select
                 name="wilaya"
                 required
@@ -179,14 +287,22 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
               >
                 <option value="">اختر الولاية...</option>
                 {wilayas.map((w) => (
-                  <option key={w.code} value={w.name_fr}>{w.code} - {w.name_ar}</option>
+                  <option key={w.code} value={w.name_fr}>
+                    {w.code} - {w.name_ar}
+                  </option>
                 ))}
               </select>
-              {errors.wilaya && <p className="text-[11px] text-rose-600 mt-1">{errors.wilaya}</p>}
+              {errors.wilaya && (
+                <p className="text-[11px] text-rose-600 mt-1">
+                  {errors.wilaya}
+                </p>
+              )}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">البلدية</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                البلدية
+              </label>
               <input
                 name="commune"
                 required
@@ -195,13 +311,19 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
               />
-              {errors.commune && <p className="text-[11px] text-rose-600 mt-1">{errors.commune}</p>}
+              {errors.commune && (
+                <p className="text-[11px] text-rose-600 mt-1">
+                  {errors.commune}
+                </p>
+              )}
             </div>
           </div>
 
           {deliveryType === "domicile" ? (
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">العنوان الكامل</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                العنوان الكامل
+              </label>
               <input
                 name="address"
                 required
@@ -210,11 +332,17 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
               />
-              {errors.address && <p className="text-[11px] text-rose-600 mt-1">{errors.address}</p>}
+              {errors.address && (
+                <p className="text-[11px] text-rose-600 mt-1">
+                  {errors.address}
+                </p>
+              )}
             </div>
           ) : (
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">اسم المكتب (Stop Desk)</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                اسم المكتب (Stop Desk)
+              </label>
               <input
                 name="office_name"
                 required
@@ -223,7 +351,11 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 onChange={handleChange}
                 className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
               />
-              {errors.office_name && <p className="text-[11px] text-rose-600 mt-1">{errors.office_name}</p>}
+              {errors.office_name && (
+                <p className="text-[11px] text-rose-600 mt-1">
+                  {errors.office_name}
+                </p>
+              )}
             </div>
           )}
 
@@ -232,7 +364,9 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
             disabled={submitting}
             className="w-full mt-2 py-4 bg-[#E8C4C4] text-gray-900 font-bold rounded-2xl shadow-md hover:bg-[#dfb5b5] transition text-sm flex items-center justify-center gap-2 disabled:opacity-60"
           >
-            <span>{submitting ? "جاري إرسال الطلب..." : "تأكيد الطلب الآن"}</span>
+            <span>
+              {submitting ? "جاري إرسال الطلب..." : "تأكيد الطلب الآن"}
+            </span>
           </button>
         </form>
       </div>
@@ -245,18 +379,32 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
 
         {cartItems.length === 0 ? (
           <p className="text-sm text-gray-500">
-            سلة المشتريات فارغة. <Link href="/shop" className="text-[#b88080] font-semibold underline underline-offset-2">تسوقي الآن</Link>
+            سلة المشتريات فارغة.{" "}
+            <Link
+              href="/shop"
+              className="text-[#b88080] font-semibold underline underline-offset-2"
+            >
+              تسوقي الآن
+            </Link>
           </p>
         ) : (
           <>
             <div className="divide-y divide-gray-100 max-h-60 overflow-y-auto space-y-4">
               {cartItems.map((item) => (
-                <div key={`${item.id}-${item.selected_size}-${item.selected_color}`} className="pt-3 first:pt-0 flex justify-between items-center text-sm">
+                <div
+                  key={`${item.id}-${item.selected_size}-${item.selected_color}`}
+                  className="pt-3 first:pt-0 flex justify-between items-center text-sm"
+                >
                   <div>
                     <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                    <span className="text-xs text-gray-400">الكمية: {item.quantity}{item.selected_size ? ` · ${item.selected_size}` : ""}</span>
+                    <span className="text-xs text-gray-400">
+                      الكمية: {item.quantity}
+                      {item.selected_size ? ` · ${item.selected_size}` : ""}
+                    </span>
                   </div>
-                  <span className="font-bold text-[#b88080]">{formatPrice(item.price * item.quantity)}</span>
+                  <span className="font-bold text-[#b88080]">
+                    {formatPrice(item.price * item.quantity)}
+                  </span>
                 </div>
               ))}
             </div>
@@ -267,12 +415,29 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 <span>{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="flex items-center gap-1.5"><Truck className="w-4 h-4 text-[#b88080]" />رسوم التوصيل</span>
-                <span className="text-xs text-[#b88080] font-medium">تُحدد عند التأكيد الهاتفي</span>
+                <span className="flex items-center gap-1.5">
+                  <Truck className="w-4 h-4 text-[#b88080]" />
+                  رسوم التوصيل
+                </span>
+
+                {loadingDeliveryPrice ? (
+                  <span className="text-xs text-gray-400">جاري الحساب...</span>
+                ) : !formData.wilaya ? (
+                  <span className="text-xs text-gray-400">اختر الولاية</span>
+                ) : !deliveryPrice ? (
+                  <span className="text-xs text-rose-500">غير متوفر</span>
+                ) : (
+                  <span className="font-semibold text-[#b88080]">
+                    {formatPrice(currentDeliveryFee)}
+                  </span>
+                )}
               </div>
+
               <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-dashed border-gray-200">
-                <span>الإجمالي الحالي</span>
-                <span className="text-[#b88080]">{formatPrice(subtotal)}</span>
+                <span>الإجمالي</span>
+                <span className="text-[#b88080]">
+                  {formatPrice(totalPrice)}
+                </span>
               </div>
             </div>
           </>

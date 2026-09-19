@@ -161,11 +161,14 @@ def get_all_products(
 
 @router.get("/categories", response_model=List[CategoryResponse])
 def get_categories(
+    include_inactive: bool = False,
     db: Session = Depends(get_db),
     admin_user: User = Depends(get_current_admin_user),
 ):
-    return db.query(Category).all()
-
+    return crud_product.get_categories(
+        db=db,
+        include_inactive=include_inactive,
+    )
 
 @router.post("/categories", response_model=CategoryResponse, status_code=status.HTTP_201_CREATED)
 def create_category(
@@ -176,27 +179,55 @@ def create_category(
     """Cree une nouvelle categorie de produits (Reserve a l'Admin)."""
     return crud_product.create_category(db=db, category_in=category_in)
 
-@router.delete("/{category_id}")
-def delete_category(
+
+
+@router.patch(
+    "/categories/{category_id}/archive",
+    response_model=CategoryResponse,
+)
+def archive_category(
     category_id: int,
     db: Session = Depends(get_db),
     admin_user: User = Depends(get_current_admin_user),
 ):
-    category = crud_category.get_category_by_id(
+    """Archive une catégorie sans la supprimer de la base de données."""
+    category = crud_product.archive_category(
         db=db,
-        category_id=category_id
+        category_id=category_id,
     )
 
     if not category:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail="التصنيف غير موجود"
+            detail="Catégorie introuvable.",
         )
 
-    db.delete(category)
-    db.commit()
+    return category
 
-    return {"message": "تم حذف التصنيف بنجاح"}
+
+@router.patch(
+    "/categories/{category_id}/restore",
+    response_model=CategoryResponse,
+)
+def restore_category(
+    category_id: int,
+    db: Session = Depends(get_db),
+    admin_user: User = Depends(get_current_admin_user),
+):
+    """Restaure une catégorie archivée."""
+    category = crud_product.restore_category(
+        db=db,
+        category_id=category_id,
+    )
+
+    if not category:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Catégorie introuvable.",
+        )
+
+    return category
+
 @router.get("/{product_id}/statistics", response_model=ProductStatisticResponse)
 def get_product_statistics(
     product_id: int,

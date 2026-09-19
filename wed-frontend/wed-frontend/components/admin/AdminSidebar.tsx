@@ -19,6 +19,7 @@ import {
   Maximize,
   MessageSquare,
   Archive,
+  Truck,
 } from "lucide-react";
 
 import Logo from "@/components/logo";
@@ -33,8 +34,18 @@ const links = [
     icon: Archive,
   },
   { name: "التصنيفات", href: "/admin/categories", icon: LayoutGrid },
+  {
+    name: "التصنيفات المؤرشفة",
+    href: "/admin/categories/archived",
+    icon: Archive,
+  },
   { name: "إدارة المقاسات", href: "/admin/sizes", icon: Maximize },
   { name: "الزبائن", href: "/admin/customers", icon: Users },
+  {
+    name: "إدارة التوصيل",
+    href: "/admin/delivery",
+    icon: Truck,
+  },
   { name: "محتوى الموقع", href: "/admin/content", icon: FileText },
   { name: "إدارة التعليقات", href: "/admin/comments", icon: MessageSquare },
   { name: "إعدادات المتجر", href: "/admin/settings", icon: Settings },
@@ -56,8 +67,14 @@ export default function AdminSidebar() {
   };
 
   const isLinkActive = (href: string) => {
-    if (href === "/admin") {
-      return pathname === "/admin";
+    if (href === "/admin") return pathname === "/admin";
+
+    if (href === "/admin/categories") {
+      return (
+        pathname === "/admin/categories" ||
+        (pathname.startsWith("/admin/categories/") &&
+          pathname !== "/admin/categories/archived")
+      );
     }
 
     return pathname === href || pathname.startsWith(`${href}/`);

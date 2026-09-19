@@ -5,6 +5,7 @@ export interface Category {
   id: number;
   name: string;
   slug?: string | null;
+  is_active: boolean;
 }
 
 export interface ProductStatistic {
@@ -138,4 +139,11 @@ export interface LandingContent {
   hero_subtitle: string;
   hero_image: string;
   announcement_bar: string;
+}
+
+export interface DeliveryPrice {
+  id: number;
+  wilaya: string;
+  home_price: number;
+  office_price: number;
 }

@@ -7,9 +7,16 @@ from app.schemas.schemas import ProductUpdate, CategoryCreate
 
 # --- CATEGORIES ---
 
-def get_categories(db: Session):
-    return db.query(Category).all()
+def get_categories(
+    db: Session,
+    include_inactive: bool = False,
+):
+    query = db.query(Category)
 
+    if not include_inactive:
+        query = query.filter(Category.is_active == True)  # noqa: E712
+
+    return query.all()
 
 def create_category(db: Session, category_in: CategoryCreate):
     slug_value = category_in.slug if category_in.slug else category_in.name.lower().replace(" ", "-")
@@ -23,7 +30,39 @@ def create_category(db: Session, category_in: CategoryCreate):
     db.refresh(db_category)
     return db_category
 
+def archive_category(db: Session, category_id: int):
+    category = (
+        db.query(Category)
+        .filter(Category.id == category_id)
+        .first()
+    )
 
+    if not category:
+        return None
+
+    category.is_active = False
+
+    db.commit()
+    db.refresh(category)
+
+    return category
+
+def restore_category(db: Session, category_id: int):
+    category = (
+        db.query(Category)
+        .filter(Category.id == category_id)
+        .first()
+    )
+
+    if not category:
+        return None
+
+    category.is_active = True
+
+    db.commit()
+    db.refresh(category)
+
+    return category
 # --- PRODUITS ---
 
 def get_products(db: Session, skip: int = 0, limit: int = 100, category_id: Optional[int] = None, include_inactive: bool = False):

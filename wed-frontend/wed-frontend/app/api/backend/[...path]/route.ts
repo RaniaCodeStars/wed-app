@@ -231,14 +231,19 @@ async function handler(
   // --------------------------------------------------
   // Transmettre le body de FastAPI au client
   // --------------------------------------------------
-
-  const body = await backendRes.arrayBuffer();
-
-  return new NextResponse(body, {
-    status: backendRes.status,
-    headers: resHeaders,
+// 204 No Content ne doit jamais avoir de body
+if (backendRes.status === 204) {
+  return new NextResponse(null, {
+    status: 204,
   });
 }
+
+const body = await backendRes.arrayBuffer();
+
+return new NextResponse(body, {
+  status: backendRes.status,
+  headers: resHeaders,
+});}
 
 export {
   handler as GET,

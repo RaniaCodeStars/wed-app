@@ -2,7 +2,16 @@
 // Fonctions de lecture "server-only", utilisées par les Server Components (SEO + ISR).
 
 import { serverFetch } from "./server-api";
-import type { Product, Category, Wilaya, Order, DashboardStats, Review, User } from "./types";
+import type {
+  Product,
+  Category,
+  Wilaya,
+  Order,
+  DashboardStats,
+  Review,
+  User,
+  DeliveryPrice,
+} from "./types";
 
 // --- Public (revalidation 60s : catalogue) ---
 
@@ -61,6 +70,34 @@ export function getAdminCategories() {
   return serverFetch<Category[]>(`/admin/products/categories`, { withAuth: true, revalidate: false });
 }
 
+export async function getAdminArchivedCategories() {
+  const categories = await serverFetch<Category[]>(
+    `/admin/products/categories?include_inactive=true`,
+    {
+      withAuth: true,
+      revalidate: false,
+    }
+  );
+
+  return categories.filter((category) => !category.is_active);
+}
 export function getAdminReviews() {
   return serverFetch<Review[]>(`/reviews/admin/all`, { withAuth: true, revalidate: false });
+}
+export function getAdminDeliveryPrices() {
+  return serverFetch<DeliveryPrice[]>(
+    `/admin/delivery-prices/`,
+    {
+      withAuth: true,
+      revalidate: false,
+    }
+  );
+}
+export function getDeliveryPrice(wilaya: string) {
+  return serverFetch<DeliveryPrice>(
+    `/delivery-prices/${encodeURIComponent(wilaya)}`,
+    {
+      revalidate: false,
+    }
+  );
 }

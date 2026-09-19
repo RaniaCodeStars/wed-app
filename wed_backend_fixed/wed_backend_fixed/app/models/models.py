@@ -38,7 +38,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)  # Ex: "بيجامات", "لانجيري"
     slug = Column(String, unique=True, nullable=True)   # URL propre
-
+    is_active = Column(Boolean, default=True, nullable=False)
     # Relation : Une catégorie contient plusieurs produits
     products = relationship("Product", back_populates="category")
 
@@ -129,6 +129,7 @@ class Order(Base):
     # "pending", "confirmed", "shipped", "delivered", "returned", "cancelled"
     status = Column(String, default="pending", nullable=False)
     total_price = Column(Float, nullable=False)
+    delivery_fee = Column(Float, nullable=False, default=0)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
 
     # --- Infos de livraison (capturées au moment de la commande, même pour une invitée) ---
@@ -187,3 +188,17 @@ class LandingContent(Base):
     hero_subtitle = Column(String, default="Découvrez notre collection de lingerie d'exception")
     hero_image = Column(String, default="")
     announcement_bar = Column(String, default="✨ Livraison disponible sur 58 wilayas")
+    
+    
+    
+    
+#Delivery and Payment Info
+class DeliveryPrice(Base):
+    __tablename__ = "delivery_prices"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    wilaya = Column(String, unique=True, nullable=False)
+
+    home_price = Column(Float, nullable=False, default=0)
+    office_price = Column(Float, nullable=False, default=0)

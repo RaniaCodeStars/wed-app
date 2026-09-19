@@ -88,6 +88,7 @@ class CategoryResponse(BaseModel):
     id: int
     name: str
     slug: Optional[str] = None
+    is_active: bool
 
     class Config:
         from_attributes = True
@@ -299,6 +300,7 @@ class OrderResponse(BaseModel):
     user_id: Optional[int] = None
     status: str
     total_price: float
+    delivery_fee: float
     created_at: datetime
     customer_name: str
     phone: str
@@ -309,6 +311,7 @@ class OrderResponse(BaseModel):
     office_name: Optional[str] = None
     payment_method: str
     items: List[OrderItemResponse]
+    
 
     class Config:
         from_attributes = True
@@ -377,6 +380,42 @@ class LandingContentResponse(BaseModel):
     hero_subtitle: str
     hero_image: str
     announcement_bar: str
+
+    class Config:
+        from_attributes = True
+
+
+class DeliveryPriceCreate(BaseModel):
+    wilaya: str
+    home_price: float
+    office_price: float
+
+    @field_validator("home_price", "office_price")
+    @classmethod
+    def validate_price(cls, v):
+        if v < 0:
+            raise ValueError("Le prix de livraison ne peut pas être négatif.")
+        return v
+
+
+class DeliveryPriceUpdate(BaseModel):
+    wilaya: str
+    home_price: float
+    office_price: float
+
+    @field_validator("home_price", "office_price")
+    @classmethod
+    def validate_price(cls, v):
+        if v < 0:
+            raise ValueError("Le prix de livraison ne peut pas être négatif.")
+        return v
+
+
+class DeliveryPriceResponse(BaseModel):
+    id: int
+    wilaya: str
+    home_price: float
+    office_price: float
 
     class Config:
         from_attributes = True

@@ -9,6 +9,7 @@ import Story from "@/components/Story";
 import AnimatedSection from "@/components/AnimatedSection";
 import { serverFetch } from "@/lib/server-api";
 import type { LandingContent } from "@/lib/types";
+import BrandVideosSection from "@/components/BrandVideosSection";
 
 // Page d'accueil : Server Component (SEO + ISR via lib/data.ts), les sections animées
 // sont enveloppées individuellement dans le petit Client Component AnimatedSection.
@@ -21,6 +22,7 @@ export default async function LandingPage() {
       <AnimatedSection><ScrollBanner /></AnimatedSection>
       <AnimatedSection><CategoryPills /></AnimatedSection>
       <AnimatedSection><ProductsSection /></AnimatedSection>
+      <AnimatedSection><BrandVideosSection /></AnimatedSection>
       <AnimatedSection><Reassurance /></AnimatedSection>
       <AnimatedSection><SizeHelp /></AnimatedSection>
       <AnimatedSection><Testimonials /></AnimatedSection>
