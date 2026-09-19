@@ -3,7 +3,7 @@ import ProductCard from "@/components/ProductCard";
 import { getProducts } from "@/lib/data";
 
 export default async function ProductsSection() {
-  let products = [];
+  let products: Awaited<ReturnType<typeof getProducts>> = [];
   try {
     products = await getProducts();
   } catch {
@@ -18,13 +18,18 @@ export default async function ProductsSection() {
         <span className="text-xs font-bold tracking-[0.2em] text-[#b88080] uppercase mb-2 block">
           ✦ تشكيلة مختارة بعناية ✦
         </span>
-        <h2 className="text-2xl sm:text-4xl font-arabic-title font-bold text-gray-900">منتجاتنا المميزة</h2>
-        <p className="text-gray-600 text-sm mt-2 max-w-md mx-auto">اكتشفي أناقتكِ اليومية بأروع خامات الساتان والراحة المطلقة</p>
+        <h2 className="text-2xl sm:text-4xl font-arabic-title font-bold text-gray-900">
+          منتجاتنا المميزة
+        </h2>
+        <p className="text-gray-600 text-sm mt-2 max-w-md mx-auto">
+          اكتشفي أناقتكِ اليومية بأروع خامات الساتان والراحة المطلقة
+        </p>
       </div>
 
       {featured.length === 0 ? (
         <p className="text-center text-gray-500 py-10">لا توجد منتجات حالياً</p>
-      ) : (<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 sm:gap-6">
           {featured.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
