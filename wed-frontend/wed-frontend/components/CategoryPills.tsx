@@ -1,27 +1,13 @@
 import Link from "next/link";
 
-import {
-  Sparkles,
-  Heart,
-  Flower2,
-  Ribbon,
-  Star,
-  Feather,
-} from "lucide-react";
+import { Sparkles, Heart, Flower2, Ribbon, Star, Feather } from "lucide-react";
 
 import { getCategories } from "@/lib/data";
 
-const ICONS = [
-  Sparkles,
-  Heart,
-  Flower2,
-  Ribbon,
-  Star,
-  Feather,
-];
+const ICONS = [Sparkles, Heart, Flower2, Ribbon, Star, Feather];
 
 export default async function CategoryPills() {
-  let categories = [];
+  let categories: Awaited<ReturnType<typeof getCategories>> = [];
 
   try {
     categories = await getCategories();
