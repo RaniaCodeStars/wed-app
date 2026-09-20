@@ -20,40 +20,59 @@ from app.schemas.schemas import (
     ProductStatisticResponse,
 )
 from app.core.deps import get_current_admin_user
-
+from app.core.supabase import supabase
 router = APIRouter(prefix="/admin/products", tags=["Admin - Products"])
 
-# Dossier local ou sont stockees les images produits (servi via StaticFiles /uploads, voir main.py)
-PRODUCTS_UPLOAD_DIR = os.path.join(settings.UPLOAD_DIR, "products")
-os.makedirs(PRODUCTS_UPLOAD_DIR, exist_ok=True)
+
 
 ALLOWED_IMAGE_TYPES = {"image/jpeg", "image/png", "image/webp", "image/jpg", "image/gif"}
 
 
 def _save_uploaded_images(images: List[UploadFile]) -> List[str]:
-    """Sauvegarde les fichiers uploades sur le disque et retourne leurs URLs
-    publiques (accessibles via /uploads/products/<fichier>)."""
+    """Upload les images vers Supabase Storage et retourne leurs URLs publiques."""
     saved_urls: List[str] = []
 
     for image in images:
         if image.content_type not in ALLOWED_IMAGE_TYPES:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail=f"Type de fichier non supporte : {image.content_type}. "
-                       f"Formats acceptes : jpg, png, webp, gif.",
+                detail=(
+                    f"Type de fichier non supporté : {image.content_type}. "
+                    f"Formats acceptés : jpg, png, webp, gif."
+                ),
             )
 
         file_extension = os.path.splitext(image.filename or "")[1] or ".jpg"
         unique_filename = f"{uuid.uuid4()}{file_extension}"
-        destination_path = os.path.join(PRODUCTS_UPLOAD_DIR, unique_filename)
 
-        with open(destination_path, "wb") as f:
-            f.write(image.file.read())
+        storage_path = f"products/{unique_filename}"
 
-        saved_urls.append(f"/uploads/products/{unique_filename}")
+        try:
+            file_content = image.file.read()
+
+            supabase.storage.from_("products").upload(
+                path=storage_path,
+                file=file_content ,
+                file_options={
+                    "content-type": image.content_type,
+                    "cache-control": "3600",
+                    "upsert": "false",
+                },
+            )
+
+            public_url = supabase.storage.from_("products").get_public_url(
+                storage_path
+            )
+
+            saved_urls.append(public_url)
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Erreur lors de l'upload de l'image : {str(e)}",
+            )
 
     return saved_urls
-
 @router.put("/rr", response_model=ProductResponse, status_code=status.HTTP_201_CREATED)
 def create(
     title: str = Form(...),
