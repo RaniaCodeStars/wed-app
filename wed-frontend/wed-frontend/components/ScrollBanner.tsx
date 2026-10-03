@@ -62,7 +62,7 @@ export default function ScrollBanner() {
                   <span>{item.icon}</span>
                   <span>{item.text}</span>
                   {/* Correction de l'espacement du séparateur pour le sens LTR */}
-                  <span className="text-[#D8A7A7] ml-8 font-bold">✦</span>
+                  <span className="text-[#9954ae] ml-8 font-bold">✦</span>
                 </div>
               ))}
             </div>

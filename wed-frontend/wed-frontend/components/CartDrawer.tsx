@@ -26,7 +26,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
       <div className="relative z-10 w-[92%] sm:w-full max-w-md h-[85vh] sm:h-[calc(100vh-2rem)] bg-white shadow-2xl flex flex-col rounded-3xl sm:rounded-[2.5rem] overflow-hidden">
         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-white/80 backdrop-blur-md">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-[#b88080]" />
+            <ShoppingBag className="w-5 h-5 text-[#9954ae]" />
             <h2 className="text-lg font-serif font-bold text-gray-900">سلة المشتريات</h2>
             <span className="text-xs bg-[#E8C4C4]/30 text-gray-800 font-medium px-2.5 py-0.5 rounded-full">
               {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
@@ -40,12 +40,12 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
         <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
           {cartItems.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-center text-gray-500 space-y-3">
-              <div className="w-16 h-16 rounded-full bg-[#f9f2f2] flex items-center justify-center text-[#b88080]">
+              <div className="w-16 h-16 rounded-full bg-[#f9f2f2] flex items-center justify-center text-[#9954ae]">
                 <ShoppingBag className="w-8 h-8" />
               </div>
               <p className="text-sm font-medium">سلة المشتريات فارغة حالياً</p>
               <p className="text-xs text-gray-400 max-w-xs">اكتشفي تشكيلتنا المميزة من اللانجيري وأضيفي ما يعجبكِ إلى السلة.</p>
-              <Link href="/shop" onClick={onClose} className="text-xs font-semibold text-[#b88080] underline underline-offset-4">
+              <Link href="/shop" onClick={onClose} className="text-xs font-semibold text-[#9954ae] underline underline-offset-4">
                 تسوقي الآن
               </Link>
             </div>
@@ -67,7 +67,7 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
                     {item.selected_color ? ` · ${item.selected_color}` : ""}
                   </span>
                   <h4 className="text-sm font-semibold text-gray-900 truncate mb-1">{item.name}</h4>
-                  <span className="text-xs font-bold text-[#b88080] block mb-2">{item.priceFormatted}</span>
+                  <span className="text-xs font-bold text-[#9954ae] block mb-2">{item.priceFormatted}</span>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center border border-gray-200 rounded-lg bg-white overflow-hidden">
@@ -102,18 +102,18 @@ export default function CartDrawer({ isOpen, onClose, cartItems, onUpdateQuantit
               </div>
               <div className="flex justify-between text-sm text-gray-500">
                 <span>التوصيل</span>
-                <span className="text-xs text-[#b88080] font-medium">يُحدد في الخطوة التالية</span>
+                <span className="text-xs text-[#9954ae] font-medium">يُحدد في الخطوة التالية</span>
               </div>
               <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-dashed border-gray-200">
                 <span>الإجمالي المتوقع</span>
-                <span className="text-[#b88080]">{formatPrice(subtotal)}</span>
+                <span className="text-[#9954ae]">{formatPrice(subtotal)}</span>
               </div>
             </div>
 
             <Link
               href="/checkout"
               onClick={onClose}
-              className="w-full py-4 bg-[#E8C4C4] text-gray-900 text-sm font-semibold rounded-2xl shadow-md hover:bg-[#dfb5b5] transition flex items-center justify-center gap-2 text-center"
+              className="w-full py-4 bg-[#D8B8D2] text-gray-900 text-sm font-semibold rounded-2xl shadow-md hover:bg-[#dfb5b5] transition flex items-center justify-center gap-2 text-center"
             >
               <span>إتمام الطلب الآن</span>
             </Link>

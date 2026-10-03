@@ -27,7 +27,7 @@ export default function SizeHelp() {
           <Link 
             href="https://wa.me/213XXXXXXXXX" // Remplace par ton numéro WhatsApp
             target="_blank"
-            className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#E8C4C4] text-gray-900 transition rounded-2xl text-sm font-bold"
+            className="flex items-center justify-center gap-2 px-6 py-3.5 bg-[#D8B8D2] text-gray-900 transition rounded-2xl text-sm font-bold"
           >
             <MessageCircle className="w-4 h-4" />
             <span>تحدثي معنا</span>

@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-transparent py-8 text-xs sm:text-sm text-gray-700">
       <section className="px-4" dir="rtl">
-        <div className="relative max-w-7xl mx-auto rounded-[2.5rem] bg-gradient-to-b from-[#EED7D7] to-[#C8A2A2] px-6 py-10 shadow-lg border border-white/40 overflow-visible flex flex-col sm:flex-row justify-between items-center gap-6 text-center sm:text-right">
+        <div className="relative max-w-7xl mx-auto rounded-[2.5rem] bg-gradient-to-b from-[#D8B8D2] to-[#D8B8D2] px-6 py-10 shadow-lg border border-white/40 overflow-visible flex flex-col sm:flex-row justify-between items-center gap-6 text-center sm:text-right">
           <div className="flex flex-col font-medium gap-1 text-gray-800">
             <p>جميع الحقوق محفوظة © WED ود</p>
             <p>الجزائر - {new Date().getFullYear()}</p>

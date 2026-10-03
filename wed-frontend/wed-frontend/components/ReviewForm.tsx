@@ -20,7 +20,7 @@ export default function ReviewForm({ productId }: { productId: number }) {
   if (isAuthenticated === false) {
     return (
       <p className="text-xs text-gray-500 bg-gray-50 rounded-xl p-4">
-        <a href="/login" className="text-[#b88080] font-semibold underline underline-offset-2">سجّلي الدخول</a> لتتمكني من إضافة تقييم لهذا المنتج.
+        <a href="/login" className="text-[#9954ae] font-semibold underline underline-offset-2">سجّلي الدخول</a> لتتمكني من إضافة تقييم لهذا المنتج.
       </p>
     );
   }
@@ -69,7 +69,7 @@ export default function ReviewForm({ productId }: { productId: number }) {
         onChange={(e) => setText(e.target.value)}
         placeholder="شاركينا رأيك في هذا المنتج..."
         rows={3}
-        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] resize-none"
+        className="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#D8B8D2] resize-none"
       />
       <button
         type="submit"

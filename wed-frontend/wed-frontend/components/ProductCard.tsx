@@ -61,7 +61,7 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="group relative bg-white/60 backdrop-blur-md rounded-2xl border border-white/80 p-3 shadow-[0_4px_20px_rgba(200,162,162,0.1)] hover:shadow-[0_8px_30px_rgba(200,162,162,0.25)] transition-all duration-300 flex flex-col w-full">
         <div className="relative w-full h-72 rounded-xl overflow-hidden bg-gray-100 mb-4">
           {product.badge && (
-            <span className="absolute top-3 right-3 z-10 bg-[#E8C4C4]/90 backdrop-blur-sm text-gray-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
+            <span className="absolute top-3 right-3 z-10 bg-[#D8B8D2]/90 backdrop-blur-sm text-gray-900 text-xs font-medium px-3 py-1 rounded-full shadow-sm">
               {product.badge}
             </span>
           )}
@@ -81,19 +81,19 @@ export default function ProductCard({ product }: { product: Product }) {
             />
           </Link>
 
-          <button
+          {/* <button
             aria-label="Ajouter aux favoris"
-            className="absolute bottom-3 left-3 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-700 hover:text-pink-500 hover:bg-white transition"
+            className="absolute bottom-3 left-3 z-10 w-9 h-9 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-gray-700 hover:text-violet-500 hover:bg-white transition"
           >
             <Heart className="w-4 h-4" />
-          </button>
+          </button> */}
 
           <motion.button
             onClick={handleAddToCart}
             aria-label="Ajouter au panier"
             whileHover={{ scale: outOfStock ? 1 : 1.1 }}
             whileTap={{ scale: outOfStock ? 1 : 0.95 }}
-            className={`absolute bottom-3 right-3 z-20 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center border-2 border-white transition-all duration-300 ${outOfStock ? "bg-gray-300 cursor-not-allowed" : "bg-[#b88080] cursor-pointer"}`}
+            className={`absolute bottom-3 right-3 z-20 w-12 h-12 rounded-full text-white shadow-lg flex items-center justify-center border-2 border-white transition-all duration-300 ${outOfStock ? "bg-gray-300 cursor-not-allowed" : "bg-[#9954ae] cursor-pointer"}`}
           >
             <Plus className="w-5 h-5 hover:rotate-90 transition-transform duration-300" />
           </motion.button>
@@ -102,13 +102,13 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="flex flex-col flex-grow px-1">
           <span className="text-xs text-gray-500 mb-1">{categoryName}</span>
           <Link href={`/shop/${product.id}`}>
-            <h3 className="text-sm font-semibold text-gray-900 mb-2 line-clamp-1 group-hover:text-[#b88080] transition-colors">
+            <h3 className="text-sm font-semibold text-violet-900 mb-2 line-clamp-1 group-hover:text-[#D8B8D2] transition-colors">
               {product.title}
             </h3>
           </Link>
           <div className="mt-auto flex items-center justify-between pt-2 border-t border-gray-100">
             <span className="text-sm font-bold text-gray-900">{formatPrice(product.price)}</span>
-            <span className="text-xs text-[#b88080] font-medium">
+            <span className="text-xs text-[#9954ae] font-medium">
               {outOfStock ? "نفدت الكمية" : "متوفر للتوصيل ✦"}
             </span>
           </div>

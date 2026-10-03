@@ -142,7 +142,7 @@ function VideoCard({ video }: { video: BrandVideo }) {
             flex
             items-center
             justify-center
-            text-[#b88080]
+            text-[#9954ae]
             shadow-lg
             transition-all
             duration-300
@@ -206,7 +206,7 @@ export default function BrandVideosSection() {
       {/* HEADER */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-9 sm:mb-12">
         <div className="text-center">
-          <span className="block text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-[#b88080] uppercase mb-3">
+          <span className="block text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-[#9954ae] uppercase mb-3">
             ✦ WED JOURNAL ✦
           </span>
 
@@ -252,7 +252,7 @@ export default function BrandVideosSection() {
               h-1.5
               rounded-full
               transition-all
-              ${index === 0 ? "w-5 bg-[#b88080]" : "w-1.5 bg-[#e6caca]"}
+              ${index === 0 ? "w-5 bg-[#9954ae]" : "w-1.5 bg-[#e6caca]"}
             `}
           />
         ))}

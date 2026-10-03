@@ -77,10 +77,10 @@ export default function Navbar({ onOpenCart, cartCount }: NavbarProps) {
         ========================= */}
         <nav
           className="
-            bg-[#E6B8B8]/75
+            bg-[#8E5A9E]/75
             backdrop-blur-xl
             px-2 sm:px-4
-            py-2 sm:py-3
+            py-2 sm:py-
             rounded-full
             shadow-lg
             border border-white/60
@@ -118,8 +118,8 @@ export default function Navbar({ onOpenCart, cartCount }: NavbarProps) {
 
                   ${
                     isActive
-                      ? "bg-white/70 text-[#b88080] shadow-sm"
-                      : "text-gray-900 hover:bg-white/40 hover:text-[#b88080]"
+                      ? "bg-[#111111]/70 text-[#ffff] shadow-sm"
+                      : "text-gray-900 hover:bg-[#FAF5F7]/70 hover:text-[#D8B8D2]"
                   }
                 `}
               >

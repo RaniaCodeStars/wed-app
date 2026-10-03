@@ -19,7 +19,7 @@ export default function ProductGallery({ images, title }: { images: string[]; ti
             <button
               key={i}
               onClick={() => setActive(i)}
-              className={`relative flex-shrink-0 w-16 h-20 rounded-xl overflow-hidden border-2 transition ${active === i ? "border-[#b88080]" : "border-transparent opacity-70 hover:opacity-100"}`}
+              className={`relative flex-shrink-0 w-16 h-20 rounded-xl overflow-hidden border-2 transition ${active === i ? "border-[#D8B8D2]" : "border-transparent opacity-70 hover:opacity-100"}`}
             >
               <Image src={getImageUrl(img)} alt="" fill sizes="64px" className="object-cover" />
             </button>

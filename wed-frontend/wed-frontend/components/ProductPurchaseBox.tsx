@@ -51,7 +51,7 @@ export default function ProductPurchaseBox({ product }: { product: Product }) {
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold border transition ${selectedSize === size ? "bg-[#b88080] text-white border-[#b88080]" : "bg-white border-gray-200 text-gray-700 hover:border-[#b88080]"}`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold border transition ${selectedSize === size ? "bg-[#9954ae] text-white border-[#9954ae]" : "bg-white border-gray-200 text-gray-700 hover:border-[#9954ae]"}`}
               >
                 {size}
               </button>
@@ -68,7 +68,7 @@ export default function ProductPurchaseBox({ product }: { product: Product }) {
               <button
                 key={color}
                 onClick={() => setSelectedColor(color)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold border transition ${selectedColor === color ? "bg-[#b88080] text-white border-[#b88080]" : "bg-white border-gray-200 text-gray-700 hover:border-[#b88080]"}`}
+                className={`px-4 py-2 rounded-xl text-xs font-semibold border transition ${selectedColor === color ? "bg-[#9954ae] text-white border-[#9954ae]" : "bg-white border-gray-200 text-gray-700 hover:border-[#9954ae]"}`}
               >
                 {color}
               </button>
@@ -100,7 +100,7 @@ export default function ProductPurchaseBox({ product }: { product: Product }) {
       <button
         onClick={handleAddToCart}
         disabled={outOfStock}
-        className={`w-full py-4 rounded-2xl text-sm font-bold shadow-md transition flex items-center justify-center gap-2 ${outOfStock ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-[#E8C4C4] text-gray-900 hover:bg-[#dfb5b5]"}`}
+        className={`w-full py-4 rounded-2xl text-sm font-bold shadow-md transition flex items-center justify-center gap-2 ${outOfStock ? "bg-gray-200 text-gray-400 cursor-not-allowed" : "bg-[#D8B8D2] text-gray-900 hover:bg-[#D8B8D2]"}`}
       >
         <ShoppingBag className="w-4 h-4" />
         <span>{outOfStock ? "غير متوفر حالياً" : "أضيفي إلى السلة"}</span>

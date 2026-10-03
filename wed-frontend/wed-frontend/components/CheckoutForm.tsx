@@ -149,7 +149,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
   if (confirmedOrder) {
     return (
       <div className="max-w-md mx-auto bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-gray-100 text-center space-y-6">
-        <div className="w-20 h-20 bg-[#f9f2f2] text-[#b88080] rounded-full flex items-center justify-center mx-auto shadow-inner">
+        <div className="w-20 h-20 bg-[#f9f2f2] text-[#9954ae] rounded-full flex items-center justify-center mx-auto shadow-inner">
           <CheckCircle2 className="w-10 h-10" />
         </div>
         <div className="space-y-2">
@@ -216,17 +216,17 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
               <button
                 type="button"
                 onClick={() => setDeliveryType("domicile")}
-                className={`flex items-center justify-center gap-2 p-3.5 rounded-2xl border text-sm font-medium transition ${deliveryType === "domicile" ? "border-[#b88080] bg-[#f9f2f2] text-gray-900 shadow-sm" : "border-gray-200 bg-white/50 text-gray-600 hover:bg-white"}`}
+                className={`flex items-center justify-center gap-2 p-3.5 rounded-2xl border text-sm font-medium transition ${deliveryType === "domicile" ? "border-[#9954ae] bg-[#f9f2f2] text-gray-900 shadow-sm" : "border-gray-200 bg-white/50 text-gray-600 hover:bg-white"}`}
               >
-                <Home className="w-4 h-4 text-[#b88080]" />
+                <Home className="w-4 h-4 text-[#9954ae]" />
                 <span>توصيل للمنزل</span>
               </button>
               <button
                 type="button"
                 onClick={() => setDeliveryType("bureau")}
-                className={`flex items-center justify-center gap-2 p-3.5 rounded-2xl border text-sm font-medium transition ${deliveryType === "bureau" ? "border-[#b88080] bg-[#f9f2f2] text-gray-900 shadow-sm" : "border-gray-200 bg-white/50 text-gray-600 hover:bg-white"}`}
+                className={`flex items-center justify-center gap-2 p-3.5 rounded-2xl border text-sm font-medium transition ${deliveryType === "bureau" ? "border-[#9954ae] bg-[#f9f2f2] text-gray-900 shadow-sm" : "border-gray-200 bg-white/50 text-gray-600 hover:bg-white"}`}
               >
-                <Building2 className="w-4 h-4 text-[#b88080]" />
+                <Building2 className="w-4 h-4 text-[#9954ae]" />
                 <span>استلام من المكتب</span>
               </button>
             </div>
@@ -264,7 +264,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 value={formData.phone}
                 onChange={handleChange}
                 dir="ltr"
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50 text-left"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#D8B8D2] bg-white/50 text-left"
               />
               <Phone className="absolute right-4 top-3.5 w-4 h-4 text-gray-400" />
             </div>
@@ -309,7 +309,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 placeholder="مثال: الشراقة"
                 value={formData.commune}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#D8B8D2] bg-white/50"
               />
               {errors.commune && (
                 <p className="text-[11px] text-rose-600 mt-1">
@@ -330,7 +330,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 placeholder="مثال: حي البدر، عمارة 5"
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#D8B8D2] bg-white/50"
               />
               {errors.address && (
                 <p className="text-[11px] text-rose-600 mt-1">
@@ -349,7 +349,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 placeholder="مثال: مكتب بلدية الشراقة"
                 value={formData.office_name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8C4C4] bg-white/50"
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[#D8B8D2] bg-white/50"
               />
               {errors.office_name && (
                 <p className="text-[11px] text-rose-600 mt-1">
@@ -362,7 +362,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full mt-2 py-4 bg-[#E8C4C4] text-gray-900 font-bold rounded-2xl shadow-md hover:bg-[#dfb5b5] transition text-sm flex items-center justify-center gap-2 disabled:opacity-60"
+            className="w-full mt-2 py-4 bg-[#D8B8D2] text-gray-900 font-bold rounded-2xl shadow-md hover:bg-[#D8B8D2] transition text-sm flex items-center justify-center gap-2 disabled:opacity-60"
           >
             <span>
               {submitting ? "جاري إرسال الطلب..." : "تأكيد الطلب الآن"}
@@ -373,7 +373,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
 
       <div className="lg:col-span-5 bg-white/80 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100 space-y-6">
         <h2 className="text-base font-bold text-gray-900 flex items-center gap-2">
-          <ShoppingBag className="w-5 h-5 text-[#b88080]" />
+          <ShoppingBag className="w-5 h-5 text-[#9954ae]" />
           ملخص الطلبية
         </h2>
 
@@ -382,7 +382,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
             سلة المشتريات فارغة.{" "}
             <Link
               href="/shop"
-              className="text-[#b88080] font-semibold underline underline-offset-2"
+              className="text-[#9954ae] font-semibold underline underline-offset-2"
             >
               تسوقي الآن
             </Link>
@@ -402,7 +402,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                       {item.selected_size ? ` · ${item.selected_size}` : ""}
                     </span>
                   </div>
-                  <span className="font-bold text-[#b88080]">
+                  <span className="font-bold text-[#9954ae]">
                     {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
@@ -416,7 +416,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
               </div>
               <div className="flex justify-between items-center">
                 <span className="flex items-center gap-1.5">
-                  <Truck className="w-4 h-4 text-[#b88080]" />
+                  <Truck className="w-4 h-4 text-[#9954ae]" />
                   رسوم التوصيل
                 </span>
 
@@ -427,7 +427,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
                 ) : !deliveryPrice ? (
                   <span className="text-xs text-rose-500">غير متوفر</span>
                 ) : (
-                  <span className="font-semibold text-[#b88080]">
+                  <span className="font-semibold text-[#9954ae]">
                     {formatPrice(currentDeliveryFee)}
                   </span>
                 )}
@@ -435,7 +435,7 @@ export default function CheckoutForm({ wilayas }: { wilayas: Wilaya[] }) {
 
               <div className="flex justify-between text-base font-bold text-gray-900 pt-2 border-t border-dashed border-gray-200">
                 <span>الإجمالي</span>
-                <span className="text-[#b88080]">
+                <span className="text-[#9954ae]">
                   {formatPrice(totalPrice)}
                 </span>
               </div>

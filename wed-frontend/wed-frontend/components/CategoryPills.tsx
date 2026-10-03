@@ -22,7 +22,7 @@ export default async function CategoryPills() {
       {/* Header */}
       <div className="flex items-end justify-between mb-5">
         <div className="text-right">
-          <span className="text-[10px] uppercase tracking-[0.25em] text-[#b88080] font-medium">
+          <span className="text-[10px] uppercase tracking-[0.25em] text-[#9954ae] font-medium">
             Collection
           </span>
 
@@ -53,7 +53,7 @@ export default async function CategoryPills() {
                 transition-all
                 duration-300
                 hover:-translate-y-1
-                hover:border-[#c9a0a0]
+                hover:border-[#D8B8D2]
                 hover:shadow-[0_10px_30px_rgba(184,128,128,0.12)]
               "
             >
@@ -73,14 +73,14 @@ export default async function CategoryPills() {
                   transition-all
                   duration-300
                   group-hover:bg-[#f6eaea]
-                  group-hover:border-[#d8b5b5]
+                  group-hover:border-[#D8B8D2]
                 "
               >
                 <Icon
                   className="
                     w-5
                     h-5
-                    text-[#b88080]
+                    text-[#9954ae]
                     stroke-[1.4]
                     transition-transform
                     duration-300
@@ -97,7 +97,7 @@ export default async function CategoryPills() {
                   font-semibold
                   text-gray-800
                   leading-relaxed
-                  group-hover:text-[#9f6d6d]
+                  group-hover:text-[#9954ae]
                   transition-colors
                 "
               >

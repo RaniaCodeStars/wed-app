@@ -15,7 +15,7 @@ export default async function ProductsSection() {
   return (
     <section className="py-16 px-4 max-w-7xl mx-auto" dir="rtl">
       <div className="text-center mb-12">
-        <span className="text-xs font-bold tracking-[0.2em] text-[#b88080] uppercase mb-2 block">
+        <span className="text-xs font-bold tracking-[0.2em] text-[#9954ae] uppercase mb-2 block">
           ✦ تشكيلة مختارة بعناية ✦
         </span>
         <h2 className="text-2xl sm:text-4xl font-arabic-title font-bold text-gray-900">

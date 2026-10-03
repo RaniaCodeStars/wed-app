@@ -13,7 +13,7 @@ export default function Hero({ title, subtitle }: HeroProps) {
           {title || (
             <>
               لأن الأنوثة تبدأ من{" "}
-              <span className="font-normal italic text-[#b88080]">
+              <span className="font-normal italic text-[#9954ae]">
                 شعورك بالراحة
               </span>
             </>
@@ -28,7 +28,7 @@ export default function Hero({ title, subtitle }: HeroProps) {
         <div className="flex flex-row items-center justify-center gap-3 w-full sm:w-auto">
           <Link
             href="/shop"
-            className="w-full sm:w-auto px-7 py-3.5 bg-[#E8C4C4] text-white text-xs sm:text-sm font-medium rounded-full shadow-md hover:bg-gray-800 transition text-center"
+            className="w-full sm:w-auto px-7 py-3.5 bg-[#9954ae] text-white text-xs sm:text-sm font-medium rounded-full shadow-md hover:bg-gray-800 transition text-center"
           >
             اكتشفي مجموعتنا
           </Link>
@@ -49,7 +49,7 @@ export default function Hero({ title, subtitle }: HeroProps) {
             />
           </div>
 
-          <div className="flex flex-col items-center justify-center w-28 h-28 sm:w-30 sm:h-30 rounded-full bg-[#E8C4C4] shadow-md border-2 border-white z-10 pointer-events-auto">
+          <div className="flex flex-col items-center justify-center w-28 h-28 sm:w-30 sm:h-30 rounded-full bg-[#D8B8D2] shadow-md border-2 border-white z-10 pointer-events-auto">
             <div className="flex flex-col items-center justify-center text-gray-800 space-y-[-6px]">
               <svg
                 className="w-4 h-4"

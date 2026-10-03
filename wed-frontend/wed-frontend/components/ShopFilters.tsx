@@ -27,7 +27,7 @@ export default function ShopFilters({ categories }: { categories: Category[] }) 
         <button
           key={cat.id}
           onClick={() => setCategory(cat.id)}
-          className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold border transition ${String(cat.id) === activeCategory ? "bg-[#b88080] text-white border-[#b88080]" : "bg-white/70 text-gray-700 border-gray-200 hover:bg-white"}`}
+          className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold border transition ${String(cat.id) === activeCategory ? "bg-[#9954ae] text-white border-[#9954ae]" : "bg-white/70 text-gray-700 border-gray-200 hover:bg-white"}`}
         >
           {cat.name}
         </button>
